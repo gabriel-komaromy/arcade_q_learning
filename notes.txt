@@ -28,3 +28,6 @@ My current overall task is going through ALE and figuring out what it expects as
 
 Couldn't immediately find a ROM for Pong
 Have six of the seven ROMs, now I'm going to figure out how to load them.
+
+Ok, good stuff. I can get a grayscale image from ALE directly. Now trying to figure out downsampling.
+I have the grayscaling and downsampling, using scipy. Awesome.
