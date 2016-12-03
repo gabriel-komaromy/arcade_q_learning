@@ -17,6 +17,14 @@ Hopefully TensorFlow lets me one-up the original paper by not needing the croppi
 
 Problem: My idea of using the model output as a parallel input into the Q-network doesn't really work, because the Q-network gives outputs for each action and a transition model requires an action as an input. That would mean I would have to instead train Q-networks for each possible action, which is almost definitely not a reasonable thing to attempt given the hardware I'm working with.
 
-I should think about other ways to incorporate a model as I go through the papers.
-
 Idea: Put the model outputs for each of the actions as an input in the Q-network at the level where the action outputs diverge. Not sure how easy this is in TensorFlow, but probably feasible.
+
+DeepMind algorithm implementation considerations:
+    - Need to decide if I'm copying their frame-skipping. Probably good to start with.
+    - They convert RGB to grey-scale. TensorFlow probably can't do that. I'll have to find some appropriate Python library, or maaaaaaybe ALE has a built-in capability. A quick search through their github isn't promising.
+        - scikit-image looks like a good candidate for a python library
+
+My current overall task is going through ALE and figuring out what it expects as input and output at each step of the process.
+
+Couldn't immediately find a ROM for Pong
+Have six of the seven ROMs, now I'm going to figure out how to load them.
