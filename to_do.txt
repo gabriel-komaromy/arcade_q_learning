@@ -4,5 +4,4 @@ Implement DeepMind algorithm:
     - Make sure I can run ALE
         - Figure out how ALE structures rewards
     - Hook up TensorFlow with ALE. That is, figure out how to take a stack of images in the ALE output format and input them to a TensorFlow CNN.
-    - Figure out RGB->grayscale implementation
     - Turn algorithm into code
