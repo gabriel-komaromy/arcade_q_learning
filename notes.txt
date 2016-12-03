@@ -1,0 +1,22 @@
+Starting a little late, but that's ok. What are the steps I need to take for an MVP?
+
+    - I should probably skim the paper I'm working off of again, just to refresh my memory.
+    - A good starting place would be to replicate the result in that paper, or at least their setup. For that, I need:
+        - ALE fully running, with at least one ROM
+        - TensorFlow in the most current release, and able to interface with ALE
+        - The algorithm from the paper implemented
+
+Let's start with TensorFlow.
+Looks like it's working after a simple pip install --upgrade. Somehow that was easier than last time I installed it. I seem to remember having trouble using it in ipython but it works fine now.
+
+Skim the paper?
+I think I remember most of the exploration paper now. I also need to go back through the paper I presented, though, because that had most of the details on how to actually do Q-learning.
+
+Maybe a better first step is to replicate the original 2013 DeepMind paper, then add in the model.
+Hopefully TensorFlow lets me one-up the original paper by not needing the cropping they used to fit in with the 2D conv library.
+
+Problem: My idea of using the model output as a parallel input into the Q-network doesn't really work, because the Q-network gives outputs for each action and a transition model requires an action as an input. That would mean I would have to instead train Q-networks for each possible action, which is almost definitely not a reasonable thing to attempt given the hardware I'm working with.
+
+I should think about other ways to incorporate a model as I go through the papers.
+
+Idea: Put the model outputs for each of the actions as an input in the Q-network at the level where the action outputs diverge. Not sure how easy this is in TensorFlow, but probably feasible.
