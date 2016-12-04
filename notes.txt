@@ -48,3 +48,13 @@ Fourth layer is 256 fully connected rectifier units (I'm guessing this is the sa
 Output is a fully-connected linear layer with one output per action.
 
 They used RMSProp with size 32 minibatches. Exploration was epsilon-greedy with epsilon annealed linearly from 1 to 0.1 over the first million frames and fixed at 0.1 after. Total of 10 million training frames (per game, I think?) and replay memory of 1 million frames.
+
+I'm currently trying to figure out how to do CNNs in TensorFlow, because that's the first step in the network.
+
+I think I'm going to go with 108x84 because that's divisible by the first-layer stride (4) and then the second-layer stride (2) after subtracting 1
+
+The model architecture is somewhat different in the Nature paper. They have the same input, then 32 8x8 conv stride 4, then 64 4x4 conv stride 2, then 64 3x3 conv stride 1, then 512 fully-connected rectifier, then the action outputs.
+
+It would be nice to figure out how much they trained after each new frame batch.
+
+So it looks like to do the stack thing, I need a 3d conv and kernel. I want to use T_kernel=1 because I really want to do a 2d conv over each frame in the stack.
