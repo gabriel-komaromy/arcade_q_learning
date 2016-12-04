@@ -5,3 +5,5 @@ Implement DeepMind algorithm:
         - Figure out how ALE structures rewards
     - Hook up TensorFlow with ALE. That is, figure out how to take a stack of images in the ALE output format and input them to a TensorFlow CNN.
     - Turn algorithm into code
+
+    - Check Nature paper for parameters not in the original paper (specific reLU function, for one). Page 10 has all the constant parameters.

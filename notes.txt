@@ -34,3 +34,17 @@ I have the grayscaling and downsampling, using scipy. Awesome.
 
 Now what? I think inputting this to TensorFlow.
 Actually, going to look at ALE a bit more. TensorFlow seems daunting right now.
+
+Ok maybe I can make some incremental progress with tf. What's the Q-network model architecture? I can go through it piece-by-piece and see how tf would let me create that.
+
+Their input was 84x84x4. 4 is the number of frames they were stacking at a time (because of k=4?). I'm quite confident that I can get tf to do the (better) 110x84x4.
+
+Second layer was 16 8x8 conv filters with stride 4 and a rectifier nonlinearity (is this different from reLU? Doesn't look like). They don't say what exact function but maybe it's in the Nature paper.
+
+Third layer is 32 4x4 conv filters with stride 2 and again a reLU.
+
+Fourth layer is 256 fully connected rectifier units (I'm guessing this is the same as rectifier nonlinearity?).
+
+Output is a fully-connected linear layer with one output per action.
+
+They used RMSProp with size 32 minibatches. Exploration was epsilon-greedy with epsilon annealed linearly from 1 to 0.1 over the first million frames and fixed at 0.1 after. Total of 10 million training frames (per game, I think?) and replay memory of 1 million frames.

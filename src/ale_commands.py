@@ -20,3 +20,9 @@ downsampled_grays = misc.imresize(grays_2d, (110, 84))
 
 """Saves a PNG output of the screen, will probably be useful for report"""
 breakout.saveScreenPNG('first_frame.png')
+
+
+def frame_to_q_input(grayscale_frame):
+    frame_2d = grayscale_frame.reshape(grayscale_frame.shape[:2])
+    downsampled = misc.imresize(frame_2d, (110, 84))
+    return downsampled
