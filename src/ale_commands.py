@@ -53,42 +53,59 @@ def conv3d(x, W, stride_size):
         )
 
 
-def new_frame():
-    breakout.act(1)
+def new_frame(action):
+    reward = breakout.act(action)
     grayscale_frame = breakout.getScreenGrayscale()
     downsampled = frame_to_q_input(grayscale_frame)
-    return downsampled
+    return downsampled, reward
 
 
-def frame_stack():
+def frame_stack(action):
     frames_array = np.zeros([4, 108, 84])
+    total_reward = 0
     for i in xrange(4):
-        frames_array[i] = new_frame()
+        frames_array[i], current_reward = new_frame(action)
+        total_reward += current_reward
 
     tf_frames = tf.reshape(frames_array, [-1, 4, 108, 84, 1])
     float_frames = tf.to_float(tf_frames)
-    return float_frames
+    return float_frames, total_reward
 
 
-trial_stack = frame_stack()
-W_conv1 = weight_variable([1, 8, 8, 1, 16])
-b_conv1 = bias_variable([16])
-h_conv1 = tf.nn.relu(conv3d(trial_stack, W_conv1, 4) + b_conv1)
+def make_network():
+    frames = tf.placeholder(tf.float32, shape=[1, 4, 108, 84, 1])
+    W_conv1 = weight_variable([1, 8, 8, 1, 16])
+    b_conv1 = bias_variable([16])
+    h_conv1 = tf.nn.relu(conv3d(frames, W_conv1, 4) + b_conv1)
 
-W_conv2 = weight_variable([1, 4, 4, 16, 32])
-b_conv2 = bias_variable([32])
+    W_conv2 = weight_variable([1, 4, 4, 16, 32])
+    b_conv2 = bias_variable([32])
 
-h_conv2 = tf.nn.relu(conv3d(h_conv1, W_conv2, 2) + b_conv2)
-h_conv2_flat = tf.reshape(h_conv2, [-1, 4 * 14 * 11 * 32])
+    h_conv2 = tf.nn.relu(conv3d(h_conv1, W_conv2, 2) + b_conv2)
+    h_conv2_flat = tf.reshape(h_conv2, [-1, 4 * 14 * 11 * 32])
 
-W_fc1 = weight_variable([4 * 14 * 11 * 32, 256])
-b_fc1 = bias_variable([256])
+    W_fc1 = weight_variable([4 * 14 * 11 * 32, 256])
+    b_fc1 = bias_variable([256])
 
-h_fc1 = tf.nn.relu(tf.matmul(h_conv2_flat, W_fc1) + b_fc1)
+    h_fc1 = tf.nn.relu(tf.matmul(h_conv2_flat, W_fc1) + b_fc1)
 
-num_actions = 4
+    num_actions = 4
 
-W_fc2 = weight_variable([256, num_actions])
-b_fc2 = bias_variable([num_actions])
+    W_fc2 = weight_variable([256, num_actions])
+    b_fc2 = bias_variable([num_actions])
 
-y_conv = tf.matmul(h_fc1, W_fc2) + b_fc2
+    y_conv = tf.matmul(h_fc1, W_fc2) + b_fc2
+    return y_conv
+
+actions_indexes = {}
+for index, action in enumerate(breakout.getMinimalActionSet()):
+    actions_indexes[action] = index
+
+y_conv = make_network()
+
+# This maybe shouldn't be 1
+best_action = tf.argmax(y_conv, 1)
+trial_stack, total_reward = frame_stack(best_action)
+
+sess = tf.Session()
+sess.run(trial_stack)

@@ -60,3 +60,22 @@ It would be nice to figure out how much they trained after each new frame batch.
 So it looks like to do the stack thing, I need a 3d conv and kernel. I want to use T_kernel=1 because I really want to do a 2d conv over each frame in the stack.
 
 Think I have 3d conv working. Now I need to build the network.
+Network is built, now I need to figure out training.
+
+The Nature paper says they did something interesting for the loss function Q-values. Every C steps (C=10000), they cloned the Q-network and called it Q^{hat}. They use the Q^{hat} values for the loss, so it's:
+
+{(y_{j}-Q(\phi_{j}, a_{j}; \theta))}^{2}, with y_{j}=r_{j} + \gamma \max_{a^{'}}Q^{hat}(\phi_{j+1}, a^{'}; \theta^{-})
+
+This was apparently to increase stability.
+
+So, the algorithm should be something like:
+
+At each step t:
+    Select action
+    Repeat len(\phi) times:
+        Send action to ALE and get reward and frame
+    Create 
+
+Ok so I'm getting stuck at the point of constructing phi, the 4-frame (or 3, for Space Invaders) stack. Do they perform updates in the middle? That's what Algorithm 1 in the Nature paper makes it seem like, but I'm highly skeptical. It seems more likely that they just sum the rewards over all the frames in a phi and then update after it's fully created.
+
+Some details on RMSProp: http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
