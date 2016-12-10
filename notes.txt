@@ -79,3 +79,5 @@ At each step t:
 Ok so I'm getting stuck at the point of constructing phi, the 4-frame (or 3, for Space Invaders) stack. Do they perform updates in the middle? That's what Algorithm 1 in the Nature paper makes it seem like, but I'm highly skeptical. It seems more likely that they just sum the rewards over all the frames in a phi and then update after it's fully created.
 
 Some details on RMSProp: http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
+
+Trying to figure out how to clone a graph for Q^{hat}

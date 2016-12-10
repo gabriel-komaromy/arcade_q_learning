@@ -97,6 +97,10 @@ def make_network():
     y_conv = tf.matmul(h_fc1, W_fc2) + b_fc2
     return y_conv
 
+
+def loss(rewards, ):
+    pass
+
 actions_indexes = {}
 for index, action in enumerate(breakout.getMinimalActionSet()):
     actions_indexes[action] = index
@@ -105,7 +109,7 @@ y_conv = make_network()
 
 # This maybe shouldn't be 1
 best_action = tf.argmax(y_conv, 1)
-trial_stack, total_reward = frame_stack(best_action)
+trial_stack, total_reward = frame_stack(1)
 
 sess = tf.Session()
 sess.run(trial_stack)
