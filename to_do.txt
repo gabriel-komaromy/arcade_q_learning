@@ -3,10 +3,6 @@ I should think about other ways to incorporate a model as I go through the paper
 Implement DeepMind algorithm:
     - Figure out how ALE structures rewards
 
-    - Turn algorithm into code
-
     - Check Nature paper for parameters not in the original paper (specific reLU function, for one). Page 10 has all the constant parameters.
 
     - Should I be softmaxing the output layer? I'm not doing it currently. I guess epsilon-greedy exploration makes this irrelevant.
-
-    - Implement the loss function

@@ -81,3 +81,45 @@ Ok so I'm getting stuck at the point of constructing phi, the 4-frame (or 3, for
 Some details on RMSProp: http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf
 
 Trying to figure out how to clone a graph for Q^{hat}
+
+For that matter, trying to figure out how graphs (and multiple graphs) work at all.
+
+Ok, some stuff I've learned:
+You build the graph with placeholders, and then pass in images and labels (or rewards, in my case) with feed_dict. The fill_feed_dict function in the MNIST example's fully_connected_feed.py is useful.
+
+I still don't really understand how to clone, but I'll get there eventually. Maybe as_graph_def will be useful.
+
+I'm not sure yet how to stuff a bunch of frame stacks into a batch array. Maybe it can just be done as a numpy operation.
+
+Ok, so one issue I have with the MNIST example is that they're assuming all inputs to the network will be BATCH_SIZE, whereas I need to be able to just input one stack to get Q-values.
+Useful: https://www.tensorflow.org/versions/r0.12/resources/faq.html#tensor-shapes
+
+I think I can actually build an MVP without doing the cloning/Q^{hat} thing, so I'm going to do that first. Cloning will be my first step after getting it running.
+
+So, I'm going to get a 32x4 tensor of output Q-values, and a 32x4 tensor of target Q-values. Do I just take the difference and then reduce on that? Well, no, it's the difference squared, but same idea.
+
+It's actually a little more complex. I need the successor state of the Q-values I'm using to calculate a proper Bellman loss. I think that means my history needs to have (s, s', r) entries, where s and s' are frame stacks. To get the loss for a single transition, I do (r + gamma * Q(s') - Q(s))^2, where Q(s') and Q(s) are the max over the Q-values in s' and s, respectively.
+That's before I implement cloning.
+
+The above is actually not correct. I need to remember the action taken, too. That's because the update should only be applied to the output corresponding to the action taken, because the transition and reward aren't correct for the other outputs/actions. I need to figure out how to do this in tensorflow. The Q(s') should still be the max over the Q-values in the next state.
+
+This means I really can't do a straightforward batch update. At best, I can group all the sampled transitions that have the same action. I think there's probably some way in tensorflow to just select one of the nodes at a layer and apply an update to that.
+
+So here's how it needs to go:
+
+1) See a frame stack, choose an action, see a next stack and a reward
+2) Save all of those things
+3) At some later point, sample that transition
+4) Calculate the new Q-value of the action you chose in the state
+5) Calculate the best Q-value in the next state
+6) Do the update to the output node of the action you chose, even if it's no longer the max-Q action
+
+6) seems like the hard part.
+There's this function called tf.gather that lets you make a new layer that's pretty much a rearrangement of nodes of the previous layer, so you could rearrange them to only have one node from the previous layer remaining, corresponding to the action that was selected.
+That would work, I think, but it would require making O(4) new extensions to the graph at each update step and updating through them. Still, it might be the best way to go.
+
+tf.scatter_update will probably also be required. See http://stackoverflow.com/questions/34935464/update-a-subset-of-weights-in-tensorflow.
+
+Do they train to convergence between frame steps? I doubt it. I'm just going with one update iteration for now.
+
+I'm currently writing the logic for the action-update loop.
