@@ -127,7 +127,7 @@ def inference(inputs):
 
 def batch_loss(taken_q, max_q, rewards, discount_factor):
     discounted_q = tf.scalar_mul(discount_factor, taken_q)
-    target = tf.reduce_sum(discounted_q, rewards)
+    target = tf.add(discounted_q, rewards)
     difference = tf.subtract(target, max_q)
     loss = tf.square(difference)
     return loss
@@ -151,6 +151,7 @@ def fill_feed_dict(
         memory,
         ):
     samples = random.sample(memory, batch_size)
+    print samples
     last_frames = [transition[0] for transition in samples]
     next_frames = [transition[1] for transition in samples]
     actions = [transition[2] for transition in samples]
@@ -167,7 +168,9 @@ def fill_feed_dict(
 
 def get_best_action(last_frame_stack):
     all_q_values = inference(last_frame_stack)
-    best_action = tf.argmax(all_q_values, 1)
+    """This isn't ideal but I'm not sure how to make tf give me a value rather
+    than a tensor."""
+    best_action = np.argmax(all_q_values)
     if random.random() < epsilon:
         return random_action()
     return actions_indexes[best_action]
@@ -216,8 +219,6 @@ def run_training():
         max_q = tf.reduce_max(next_q)
 
         loss = batch_loss(taken_q, max_q, rewards, discount_factor)
-        # TODO make the above line run
-        print 'got here'
 
         train_op = train(loss, learning_rate)
 
@@ -227,14 +228,15 @@ def run_training():
 
         sess.run(init)
 
-        initial_action = random_action
+        initial_action = random_action()
 
         last_frame_stack, average_reward = frame_stack(initial_action)
 
         memory = [None] * memory_size
 
         for starting_step in xrange(batch_size):
-            action_choice = random_action(last_frame_stack)
+            print 'starting step', starting_step
+            action_choice = get_best_action(last_frame_stack)
             new_frame_stack, average_reward = frame_stack(action_choice)
             memory[starting_step % memory_size] = (
                 last_frame_stack,
@@ -242,8 +244,12 @@ def run_training():
                 action_choice,
                 average_reward
                 )
+            last_frame_stack = new_frame_stack
+
+        print 'past initial memory fill'
 
         for step in xrange(batch_size, max_steps):
+            print 'starting step', step
             action_choice = get_best_action(last_frame_stack)
             new_frame_stack, average_reward = frame_stack(action_choice)
 
@@ -260,13 +266,9 @@ def run_training():
                 filled_memory = memory
             feed_dict = fill_feed_dict(
                 current_frames,
-                last_frame_stack,
                 next_frames,
-                new_frame_stack,
                 rewards,
-                average_reward,
                 action_taken_index,
-                action_choice,
                 step,
                 filled_memory,
                 )
