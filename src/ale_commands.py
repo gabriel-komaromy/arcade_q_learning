@@ -127,7 +127,8 @@ def inference(inputs):
 
 def batch_loss(taken_q, max_q, rewards, discount_factor):
     discounted_q = tf.scalar_mul(discount_factor, taken_q)
-    target = tf.add(rewards, discounted_q)
+    discounted_q = tf.Print(discounted_q, [discounted_q], 'discounted q')
+    target = tf.add(discounted_q, rewards)
     difference = tf.subtract(target, max_q)
     loss = tf.square(difference)
     return loss
@@ -160,7 +161,10 @@ def fill_feed_dict(
     next_frames = [
         transition[1].reshape(trimmed_shape) for transition in samples
         ]
-    actions = [transition[2] for transition in samples]
+    actions = np.reshape(
+        [transition[2] for transition in samples],
+        (batch_size, 1),
+        )
     rewards = [transition[3] for transition in samples]
     feed_dict = {
         last_frames_placeholder: last_frames,
@@ -222,9 +226,16 @@ def run_training():
         current_q = inference(current_frames)
         print 'current_q', current_q
         action_taken_index = tf.placeholder(tf.int32, shape=[32, 1])
-        actions_taken = [stack[0] for stack in tf.unstack(action_taken_index)]
+        indexes = [[n, 0] for n in xrange(batch_size)]
+        actions_taken = tf.gather_nd(action_taken_index, indexes)
+        actions_taken = tf.Print(actions_taken, [actions_taken], 'actions tak')
+        index_range = tf.range(batch_size)
+        coords = tf.transpose(tf.pack([index_range, actions_taken]))
+        coords = tf.Print(coords, [coords], 'coords', summarize=5)
+        # action_locations = [[index, action] for action in actions_taken]
         # taken_q = current_q[action_taken_index]
-        taken_q = tf.gather(current_q, actions_taken)
+        taken_q = tf.gather_nd(current_q, coords)
+        taken_q = tf.Print(taken_q, [taken_q], 'taken q')
         print taken_q, 'taken q'
 
         next_q = inference(next_frames)
