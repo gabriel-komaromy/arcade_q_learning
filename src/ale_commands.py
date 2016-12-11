@@ -151,7 +151,6 @@ def fill_feed_dict(
         memory,
         ):
     samples = random.sample(memory, batch_size)
-    print samples
     last_frames = [transition[0] for transition in samples]
     next_frames = [transition[1] for transition in samples]
     actions = [transition[2] for transition in samples]
@@ -238,12 +237,14 @@ def run_training():
             print 'starting step', starting_step
             action_choice = get_best_action(last_frame_stack)
             new_frame_stack, average_reward = frame_stack(action_choice)
-            memory[starting_step % memory_size] = (
+            adding_tuple = (
                 last_frame_stack,
                 new_frame_stack,
                 action_choice,
                 average_reward
                 )
+
+            memory[starting_step % memory_size] = adding_tuple
             last_frame_stack = new_frame_stack
 
         print 'past initial memory fill'
@@ -260,10 +261,11 @@ def run_training():
                 average_reward
                 )
 
-            if step > len(memory):
+            if step < memory_size:
                 filled_memory = memory[:step]
             else:
                 filled_memory = memory
+
             feed_dict = fill_feed_dict(
                 current_frames,
                 next_frames,
