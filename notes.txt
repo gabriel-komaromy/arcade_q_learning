@@ -123,3 +123,7 @@ tf.scatter_update will probably also be required. See http://stackoverflow.com/q
 Do they train to convergence between frame steps? I doubt it. I'm just going with one update iteration for now.
 
 I'm currently writing the logic for the action-update loop.
+
+I don't think what I did with gather was quite right. It's still giving me a length-4 array.
+
+I think tf.unstack might be closer to what I'm looking for.

@@ -86,11 +86,11 @@ def frame_stack(action):
         frames_array[i], current_reward = new_frame(action)
         total_reward += current_reward
 
-    tf_frames = tf.reshape(
+    reshaped_frames = np.reshape(
         frames_array,
         [-1, stack_size, downsampled_w, downsampled_h, 1],
         )
-    float_frames = tf.to_float(tf_frames)
+    float_frames = reshaped_frames.astype(np.float32)
     average_reward = total_reward / float(stack_size)
     return float_frames, average_reward
 
@@ -127,7 +127,7 @@ def inference(inputs):
 
 def batch_loss(taken_q, max_q, rewards, discount_factor):
     discounted_q = tf.scalar_mul(discount_factor, taken_q)
-    target = tf.add(discounted_q, rewards)
+    target = tf.add(rewards, discounted_q)
     difference = tf.subtract(target, max_q)
     loss = tf.square(difference)
     return loss
@@ -136,8 +136,10 @@ def batch_loss(taken_q, max_q, rewards, discount_factor):
 def train(loss, learning_rate):
     # from Nature paper
     momentum = 0.95
+    tf.Print(loss, [loss], 'here')
     optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=momentum)
     global_step = tf.Variable(0, name='global_step', trainable=False)
+    tf.Print(global_step, [global_step])
     train_op = optimizer.minimize(loss, global_step=global_step)
     return train_op
 
@@ -151,8 +153,13 @@ def fill_feed_dict(
         memory,
         ):
     samples = random.sample(memory, batch_size)
-    last_frames = [transition[0] for transition in samples]
-    next_frames = [transition[1] for transition in samples]
+    trimmed_shape = [stack_size, downsampled_w, downsampled_h, 1]
+    last_frames = [
+        transition[0].reshape(trimmed_shape) for transition in samples
+        ]
+    next_frames = [
+        transition[1].reshape(trimmed_shape) for transition in samples
+        ]
     actions = [transition[2] for transition in samples]
     rewards = [transition[3] for transition in samples]
     feed_dict = {
@@ -171,8 +178,10 @@ def get_best_action(last_frame_stack):
     than a tensor."""
     best_action = np.argmax(all_q_values)
     if random.random() < epsilon:
-        return random_action()
-    return actions_indexes[best_action]
+        action = random_action()
+    else:
+        action = best_action
+    return actions_indexes[action]
 
 
 def random_action():
@@ -211,8 +220,12 @@ def run_training():
         so it calls inference but then indexes into it. next_q needs to call
         inference and then find the max action from that."""
         current_q = inference(current_frames)
-        action_taken_index = tf.placeholder(tf.int32, shape=[1])
-        taken_q = tf.gather(current_q, action_taken_index)
+        print 'current_q', current_q
+        action_taken_index = tf.placeholder(tf.int32, shape=[32, 1])
+        actions_taken = [stack[0] for stack in tf.unstack(action_taken_index)]
+        # taken_q = current_q[action_taken_index]
+        taken_q = tf.gather(current_q, actions_taken)
+        print taken_q, 'taken q'
 
         next_q = inference(next_frames)
         max_q = tf.reduce_max(next_q)
@@ -252,12 +265,13 @@ def run_training():
         for step in xrange(batch_size, max_steps):
             print 'starting step', step
             action_choice = get_best_action(last_frame_stack)
+            print action_choice, 'action_choice'
             new_frame_stack, average_reward = frame_stack(action_choice)
 
             memory[step % memory_size] = (
                 last_frame_stack,
-                action_choice,
                 new_frame_stack,
+                action_choice,
                 average_reward
                 )
 
