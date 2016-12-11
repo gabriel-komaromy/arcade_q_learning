@@ -127,3 +127,5 @@ I'm currently writing the logic for the action-update loop.
 I don't think what I did with gather was quite right. It's still giving me a length-4 array.
 
 I think tf.unstack might be closer to what I'm looking for.
+
+I think it's working. I need to work out exactly when I'm using index actions and when I'm using ALE actions.

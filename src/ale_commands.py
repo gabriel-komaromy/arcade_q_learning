@@ -15,9 +15,7 @@ path = '/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment' + \
 breakout.loadROM(path)
 
 available_actions = breakout.getMinimalActionSet()
-actions_indexes = {}
-for index, action in enumerate(available_actions):
-    actions_indexes[action] = index
+num_actions = len(available_actions)
 
 # breakout.getLegalActionSet()
 
@@ -80,10 +78,12 @@ def new_frame(action):
 
 
 def frame_stack(action):
+    assert action in xrange(num_actions)
+    ale_action = available_actions[action]
     frames_array = np.zeros([stack_size, downsampled_w, downsampled_h])
     total_reward = 0
     for i in xrange(stack_size):
-        frames_array[i], current_reward = new_frame(action)
+        frames_array[i], current_reward = new_frame(ale_action)
         total_reward += current_reward
 
     reshaped_frames = np.reshape(
@@ -99,7 +99,7 @@ def inference(inputs):
     # batch_size = tf.shape(inputs[0])[0]
     conv1_units = 16
     conv2_units = 32
-    fully_connected_units = 256
+    fully_connected_units = 128
     W_conv1 = weight_variable([1, 8, 8, 1, conv1_units])
     b_conv1 = bias_variable([conv1_units])
     h_conv1 = tf.nn.relu(conv3d(inputs, W_conv1, stack_size) + b_conv1)
@@ -116,8 +116,6 @@ def inference(inputs):
 
     h_fc1 = tf.nn.relu(tf.matmul(h_conv2_flat, W_fc1) + b_fc1)
 
-    num_actions = 4
-
     W_fc2 = weight_variable([fully_connected_units, num_actions])
     b_fc2 = bias_variable([num_actions])
 
@@ -129,19 +127,22 @@ def batch_loss(taken_q, max_q, rewards, discount_factor):
     discounted_q = tf.scalar_mul(discount_factor, taken_q)
     discounted_q = tf.Print(discounted_q, [discounted_q], 'discounted q')
     target = tf.add(discounted_q, rewards)
+    target = tf.Print(target, [target], 'target')
     difference = tf.subtract(target, max_q)
+    difference = tf.Print(difference, [difference], 'difference')
     loss = tf.square(difference)
+    loss = tf.Print(loss, [loss], 'loss')
     return loss
 
 
 def train(loss, learning_rate):
     # from Nature paper
     momentum = 0.95
-    tf.Print(loss, [loss], 'here')
     optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=momentum)
     global_step = tf.Variable(0, name='global_step', trainable=False)
-    tf.Print(global_step, [global_step])
+    # global_step = tf.Print(global_step, [global_step], 'global_step')
     train_op = optimizer.minimize(loss, global_step=global_step)
+    # train_op = tf.Print(train_op, [train_op], 'train op')
     return train_op
 
 
@@ -185,11 +186,11 @@ def get_best_action(last_frame_stack):
         action = random_action()
     else:
         action = best_action
-    return actions_indexes[action]
+    return action
 
 
 def random_action():
-    return random.choice(available_actions)
+    return random.choice(range(num_actions))
 
 
 def run_training():
@@ -224,19 +225,25 @@ def run_training():
         so it calls inference but then indexes into it. next_q needs to call
         inference and then find the max action from that."""
         current_q = inference(current_frames)
-        print 'current_q', current_q
+        # print 'current_q', current_q
         action_taken_index = tf.placeholder(tf.int32, shape=[32, 1])
         indexes = [[n, 0] for n in xrange(batch_size)]
         actions_taken = tf.gather_nd(action_taken_index, indexes)
-        actions_taken = tf.Print(actions_taken, [actions_taken], 'actions tak')
+        """
+        actions_taken = tf.Print(
+            actions_taken,
+            [actions_taken],
+            'actions tak',
+            )
+            """
         index_range = tf.range(batch_size)
         coords = tf.transpose(tf.pack([index_range, actions_taken]))
-        coords = tf.Print(coords, [coords], 'coords', summarize=5)
+        # coords = tf.Print(coords, [coords], 'coords', summarize=5)
         # action_locations = [[index, action] for action in actions_taken]
         # taken_q = current_q[action_taken_index]
         taken_q = tf.gather_nd(current_q, coords)
-        taken_q = tf.Print(taken_q, [taken_q], 'taken q')
-        print taken_q, 'taken q'
+        # taken_q = tf.Print(taken_q, [taken_q], 'taken q')
+        # print taken_q, 'taken q'
 
         next_q = inference(next_frames)
         max_q = tf.reduce_max(next_q)
@@ -302,6 +309,6 @@ def run_training():
 
             _, loss_value = sess.run([train_op, loss], feed_dict=feed_dict)
             last_frame_stack = new_frame_stack
-            print loss_value
 
+            loss_value = loss_value
 run_training()
