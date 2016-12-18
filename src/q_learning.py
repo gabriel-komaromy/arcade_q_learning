@@ -14,7 +14,6 @@ game = ale.ALEInterface()
 rom = 'Breakout.bin'
 path = os.path.join(
     os.getcwd(),
-    'Arcade-Learning-Environment-0.5.1',
     'roms',
     rom,
     )
