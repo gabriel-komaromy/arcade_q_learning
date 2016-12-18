@@ -8,33 +8,33 @@ import random
 https://www.tensorflow.org/versions/r0.12/tutorials/mnist/pros/index.html,
 although the problem here requires significant alterations."""
 
-breakout = ale.ALEInterface()
+rom = ale.ALEInterface()
 path = '/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment' + \
     '-0.5.1/roms/Breakout.bin'
 
-breakout.loadROM(path)
+rom.loadROM(path)
 
-available_actions = breakout.getMinimalActionSet()
+available_actions = rom.getMinimalActionSet()
 num_actions = len(available_actions)
 
-# breakout.getLegalActionSet()
+# rom.getLegalActionSet()
 
 """This is the one I probably want to use, it's only the actions that have
 an effect in the game"""
-# breakout.getMinimalActionSet()
-# breakout.getScreen()
+# rom.getMinimalActionSet()
+# rom.getScreen()
 
 """Outputs 210 x 160 image. You can also pass in an np array if you want it to
 fill that for you. Actually, that produces weirdly high inputs, don't fuck with
 it."""
-# grays = breakout.getScreenGrayscale()
+# grays = rom.getScreenGrayscale()
 
 """It has shape (210, 160, 1) and we need (210, 160)"""
 # grays_2d = grays.reshape((210, 160))
 # downsampled_grays = misc.imresize(grays_2d, (108, 84))
 
 """Saves a PNG output of the screen, will probably be useful for report"""
-# breakout.saveScreenPNG('first_frame.png')
+# rom.saveScreenPNG('first_frame.png')
 
 # from Nature paper
 downsampled_w = 108
@@ -71,8 +71,8 @@ def conv3d(x, W, stride_size):
 
 
 def new_frame(action):
-    reward = breakout.act(action)
-    grayscale_frame = breakout.getScreenGrayscale()
+    reward = rom.act(action)
+    grayscale_frame = rom.getScreenGrayscale()
     downsampled = frame_to_q_input(grayscale_frame)
     return downsampled, reward
 
