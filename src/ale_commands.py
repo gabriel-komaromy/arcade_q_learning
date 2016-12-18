@@ -9,19 +9,19 @@ import os
 https://www.tensorflow.org/versions/r0.12/tutorials/mnist/pros/index.html,
 although the problem here requires significant alterations."""
 
-rom = ale.ALEInterface()
+game = ale.ALEInterface()
 
-game = 'Breakout.bin'
+rom = 'Breakout.bin'
 path = os.path.join(
     os.getcwd(),
     'Arcade-Learning-Environment-0.5.1',
     'roms',
-    game,
+    rom,
     )
 
-rom.loadROM(path)
+game.loadROM(path)
 
-available_actions = rom.getMinimalActionSet()
+available_actions = game.getMinimalActionSet()
 num_actions = len(available_actions)
 
 # from Nature paper
@@ -59,8 +59,8 @@ def conv3d(x, W, stride_size):
 
 
 def new_frame(action):
-    reward = rom.act(action)
-    grayscale_frame = rom.getScreenGrayscale()
+    reward = game.act(action)
+    grayscale_frame = game.getScreenGrayscale()
     downsampled = frame_to_q_input(grayscale_frame)
     return downsampled, reward
 
