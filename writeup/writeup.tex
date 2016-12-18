@@ -372,11 +372,8 @@ gre5@case.edu}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-    I implemented deep neural networks for playing Atari 2600 games using Q-Learning.
-    We create Voronoi diagrams for two-dimensional maps with point obstacles.
-    We explore the algebraic and geometric intricacies of the Sweepline algorithm used
-    to build the diagrams. We review the concept of a k-Nearest-Neighbors classifier
-    and use the completed Voronoi diagram to find nearest neighbors.
+    We implemented deep neural networks for playing Atari 2600 games using
+    Q-Learning.  Here, we discuss a number of implementation issues.
 \end{abstract}
 
 % no keywords
@@ -591,7 +588,7 @@ transition was recorded.
 
 \section{Results}
 \noindent\ Unfortunately, we were not able to generate meaningful results due
-to performance issues. In~\cite{mnih2013playing}, they trained each game for
+to performance issues. In~\cite{mnih2013playing}, they trained on each game for
 10,000,000 steps. With frame stacking, that means there were 2,500,000 network
 updates.  When we tried to run our implementation with TensorFlow, it took
 hours to reach 100 steps even on a powerful computer. This confused us for
@@ -615,9 +612,10 @@ learn anything about the game or do sufficient exploration.
 
 \section{Conclusion}
 \noindent\ Not getting any results was obviously disappointing. Additionally,
-we didn't get very far beyond implementing the 2013 paper. We did learn quite a
-bit about using TensorFlow and deep Q-Learning, and hopefully provided some
-interesting insights from the challenges we encountered.
+we didn't get very far beyond implementing the 2013 paper. Writing correct
+TensorFlow code was quite a bit more challenging than anticipated. We did learn
+quite a bit about using TensorFlow and deep Q-Learning, and hopefully provided
+some interesting insights from the challenges we encountered.
 
 \section{Code}
 \noindent\ \url{https://github.com/gabriel-komaromy/arcade_q_learning}
