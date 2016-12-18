@@ -1,3 +1,5 @@
+# This is what I used to set up the environment on a new Ubuntu machine.
+# This may not be complete. I recommend running it line-by-line in a terminal.
 sudo apt-get install python-pip
 sudo pip install --upgrade pip
 sudo pip install tensorflow
