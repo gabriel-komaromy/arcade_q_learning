@@ -1,0 +1,791 @@
+
+%% bare_conf.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
+%% conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall the IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. The IEEE's font choices and paper sizes can   ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+\documentclass[conference]{IEEEtran}
+% Some Computer Society conferences also require the compsoc mode option,
+% but others use the standard conference format.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+%\ifCLASSINFOpdf\
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{amsmath}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+%\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+%\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a larger sans serif font
+% than the serif footnote size font used in traditional IEEE formatting
+% and thus the need to invoke different subfig.sty package options depending
+% on whether compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Reinforcement Learning with Deep Q-Networks for Classical Arcade Games}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Gabriel Ewing}
+\IEEEauthorblockA{Department of Electrical Engineering\\and Computer Science\\
+Case Western Reserve University\\
+Cleveland, OH\\
+gre5@case.edu}
+}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+    I implemented deep neural networks for playing Atari 2600 games using Q-learning.
+    We create Voronoi diagrams for two-dimensional maps with point obstacles.
+    We explore the algebraic and geometric intricacies of the Sweepline algorithm used
+    to build the diagrams. We review the concept of a k-Nearest-Neighbors classifier
+    and use the completed Voronoi diagram to find nearest neighbors.
+\end{abstract}
+
+% no keywords
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle\
+
+
+
+\section{Introduction}
+\noindent\ Over the past few decades, computers have been able to play a
+series of increasingly complex games at a high level, perhaps most notably
+in Deep Blue's defeat of reigning world chess champion Garry Kasparov in 1997
+and AlphaGo's victory against top Go player Lee Sedol in 2016. Complexity, in
+this case, is mostly tied to the \emph{branching factor} of the game in question;
+that is, the number of actions that are available to a player at a point in time.
+While chess and Go are both complex beyond the point of human understanding,
+chess was won much sooner by computers because it has a significantly lower branching
+factor than Go.\\
+\indent\ Despite their massive possible game trees, both of the aforementioned games
+are laughably simple compared to the real world in which we live every day. This is
+in part due to the fact that the state at any given time for both games can be entirely
+encoded by a relatively small number of bits, whereas the real world has meaningful
+state down to the atomic level and a functionally infinite branching factor.
+The low-dimensional game representation means that vision, one of the most
+elaborate functions of our brains, has little to no bearing on our ability to play
+either game.\\
+\indent\ The natural next targets for computational game-playing, then, are games
+that require some visual processing to play effectively. In 2013, Bellemare et al.
+published the Arcade Learning Environment (ALE)~\cite{bellemare13arcade}, which allows
+programmatic access to an emulator for video games on the Atari 2600 console.\\
+\indent\ Note that in this paper we mainly follow Mnih et al.~\cite{mnih2013playing},
+and omit some details from that paper for brevity, but attempt to expand on areas that were
+given less attention in that paper and we found interesting during our implementation.
+
+\subsection{Q-Learning}\label{ql}
+\noindent\ Parallel to the trend of increasing complexity, focus has shifted from explicitly
+teaching computers to play games to having the computers learn for themselves from
+experience. This is in part due to stronger general interest in machine learning, and in
+part due to the learning approach surpassing the teaching approach.\\
+\indent\ The subfield of machine learning most relevant to gameplay is called reinforcement
+learning. Reinforcment learning is the problem of solving Markov Decision Processes (MDPs).
+An MDP is a task consisting of a set of states, a set of actions, a set of transition
+probabilities from the set of (state, action) pairs to the set of outcome states, a set
+of starting states, and a reward function. At each step of the MDP, the agent observes a
+state, selects an action, and is given a reward signal. The reward signal is what the agent
+should try to optimize.\\
+\indent\ A prominent classical reinforcement learning approach is Q-Learning. In Q-Learning,
+the agent maintains a function that represents the value of a given (state, action) pair:
+that is, the expected cumulative reward received by taking an action in a state. If the
+agent has learned a good Q-function, it can then exploit that by taking the action with the
+maximal Q-value in a given state.\\
+\indent\ Usually, the Q-function is parameterized by a linear combination of the state
+features. Its weights are updated by the \emph{Bellman equation}:
+\begin{equation}
+    Q_{new}(s, a)\mathrel{+}=\alpha\left(R(s,a)+\gamma\max_{a^{'}}Q(s^{'},a^{'})\right)
+\end{equation}
+$\alpha$ is the \emph{learning rate}, which controls how much the weights move at each update.
+$R(s, a)$ is the reward received after taking action $a$ in state $s$.
+$\gamma$ is the \emph{discount factor}, representing how much less a reward at a future step
+is worth than a reward at the current step. $s^{'}$ is the state transitioned to after taking
+action $a$.\\
+\indent\ Rather than use a set of linear weights for the Q-function, Deep Q-Learning uses a
+represents the Q-function via a neural network. We will explore this concept further in
+Section~\ref{deep_q}.
+
+\subsection{Arcade Learning Environment}
+\noindent\ The ALE provides an interface to game binaries for Python and Java (binaries must
+be acquired from third-party sites). After a game is initialized, play proceeds in a loop
+of the agent sending an action, receiving a reward, and requesting the frame of the current
+game state.\\
+\indent\ Frames are given as 210$\times$160 pixel images with 128 colors. To reduce the
+computational load, Mnih et al.~\cite{mnih2013playing} downsampled the frame to 110$\times$84
+and converted the colors to grayscale. We also adopted this approach. Conveniently, the ALE
+has an\ API call to get a grayscale frame instead of RGB.\\
+\indent\ The actions available to an agent generally include up, down, left, right, and
+game-specific actions such as jump or shoot. These are encoded as integers by the ALE, so the
+agent has no semantic knowledge of the actions before it starts playing the game.
+
+\section{Methods}
+\subsection{Deep Q-Learning}\label{deep_q}
+\noindent\ As mentioned in Section~\ref{ql}, Deep Q-Learning uses a neural network to
+represent the Q-function. This formulation has a couple benefits. First, deep neural networks
+are capable of learning extremely complex value functions, whereas linearly-parameterized
+functions are limited by the complexity of the input features. This is important for any
+game with a large state space, such as those we are exploring here. Second, deep neural
+networks have been the driving force of the recent revolutionary improvements in computer
+vision. For games with visually-represented states, we can take advantage of those
+improvements.\\
+\indent\ There are some differences between the use and updating of a deep Q-network and
+a linearly-parameterized Q-function.
+
+\subsubsection{Action Representation}
+\noindent\ One possible network architecture would be to have a separate
+Q-network for each possible action. We could then feed a state through each
+network and select the action with the highest Q-value. This approach would
+work, but it ignores some possible performance improvements and recent
+discoveries in neural networks.\\
+\indent\ Neural networks are computationally expensive to train, and are even more expensive
+when the number of weights in the network is high. This means that when
+possible, we should try to construct our architecture so that the number of weights that
+need to be updated is minimized. One way to do this is to only use one network for all of
+the actions, and have each action correspond to one of the network's output nodes.\\
+\indent\ Besides the computational improvements, this takes advantage of the fact that
+the early-layer processing for each action should be virtually identical, since they all
+require knowledge of the relevant portions of the game state derived from the visual input.
+By using shared early layers, we ensure that useful visual processing patterns that would
+have only been ``discovered'' by one network in a separate-action architecture are instead
+shared by all of the actions.\\
+\indent\ This is similar to the principal that we saw in class where early-layer weights
+for image classification tasks can usually be reused effectively, even for classification
+on images that would seem unrelated to those that produced the original weights.
+
+\subsubsection{Network Feedback}
+\noindent\ The Bellman equation, discussed in Section~\ref{ql}, is a \emph{prescriptive}
+update equation; that is, it gives the steps that should be taken to update the
+Q-function. When we have a linear set of weights, the Bellman equation is sufficient and
+complete because we know exactly how the outputs will change with any alteration of the
+weights.\\
+\indent\ In contrast, with a Q-network, we need a \emph{descriptive} update formulation.
+Since the backpropagation equations for neural networks are established and widely
+available, we need to \emph{tell the network what it should produce} and then train it
+via backpropagation to match that output.\\
+\indent\ Mnih et al.~\cite{mnih2013playing} found a way to derive an error value for
+backpropagation given a reward and a transition:
+\begin{equation}
+    Err(r, s, a, s^{'})=r+\gamma\max_{a'}Q(s^{'},a^{'})-Q(s,a)
+\end{equation}
+This still uses the Bellman contraction from a reward and future Q-value to figure out
+how ``wrong'' the current Q-value is.
+
+\subsubsection{Network Architecture}
+\noindent\ We mostly follow the architecture presented
+in~\cite{mnih2013playing}, with some 
+
+
+\subsection{Data Structures}
+\noindent\ There are two fundamental data structures used in the construction of the Voronoi
+diagram.
+
+\subsubsection{Beach Line}
+\noindent\ The first data structure represents the beach line. Optimally,
+this would be implemented as a balanced binary search tree such as an AVL tree or
+red-black tree. In this tree, leaf nodes represent obstacles and
+the internal nodes represent the intersections between arcs~\cite{mitslides}.\\
+\indent In the interest of ease of implemenation, we instead use a
+doubly-linked list to store the beach line. Nodes in the list contain
+obstacles, and two adjacent nodes have pointers to each other and to the
+growing Voronoi edge between them. Using a list instead of a search tree
+increases the complexity of locating the arc that a new obstacle falls under
+from $O(\log n)$ to $O(n)$.\\
+\indent In this setup, a node has two adjacent edges, each with an intersection
+at its endpoint. When a node is first encountered by the sweepline, its arc is a
+vertical line, and so only intersects the beach line once. However, the equation
+for intersections in Section~\ref{obstacle_events} returns two copies of this
+intersection. This allows us to create the arcs without having to handle an
+additional case.\\
+\indent An obstacle can have multiple nodes associated with it. Each time the
+obstacle's parabola is split by an obstacle event, the single node containing
+that segment of the arc splits into two. This corresponds to the obstacle's
+Voronoi region gaining an incident edge.\\
+\indent When a circle event occurs, the corresponding obstacle's node is removed
+from the list and its neighbors are joined together, forming an intersection on the
+Voronoi diagram and a new edge leading out of it.
+
+\subsubsection{Event Queue}
+\noindent\ The second data structure is a priority queue containing the events, which we refer to as
+the \emph{event queue}. We implement this using a binary heap, Python's \emph{heapq}.
+Initially, the event queue contains all of the obstacles minus duplicate obstacles,
+beginning with the obstacle with maximal y-value. Ordering ties are broken by
+placing the event with the lower x-value first.
+
+\subsubsection{Interactions}
+\noindent\ There is some overlap between the responsibilities of the beach line and the event
+queue. Both of them keep track of circle events: each node in the beach line
+has an associated circle event, if any, and the event queue contains the
+active circle events in addition to the obstacle events. After each event,
+the nearby nodes in the beach line are examined for circle event updates. This
+includes both adding potential new circle events if a node was added to the
+beach line, and removing circle events if a new obstacle falls inside the
+circle. If a circle event is removed from the beach line, it also is removed
+from the event queue. This is a costly operation because lookup in a heap
+costs $O(n)$.
+
+\subsection{Nearest Neighbors}\label{knn}
+\noindent\ Given a complete and robust Voronoi diagram, KNN classification can be done
+in a similar manner to a breadth-first search. To classify a test point, the
+first step is to locate the Voronoi region that it resides in. The obstacle
+corresponding to that region is the nearest neighbor. If $k>1$, the obstacles
+in regions adjacent to the nearest neighbor are added to a list. The second
+nearest neighbor will be the closest obstacle in the list. Additional neighbors
+can be added in a similar manner.\\
+\indent Classification in this manner requires that edges have knowledge of
+the obstacles on both sides of them, which our Voronoi implementation does
+not. We output a list of edges and a dictionary mapping each obstacle to
+the edges surrounding its region.\\
+\indent We modify the nearest-neighbor implementation
+as follows: after the nearest neighbor is found, it is removed from the list
+of obstacles and the Voronoi diagram is re-calculated. The second nearest
+neighbor is now the obstacle for the region that the test point resides in.
+This can be repeated for the $k$ nearest neighbors. This impacts
+the computational complexity of the classification, as creating $k$ Voronoi
+diagrams increases the runtime by a factor of $k$.\\
+\indent The standard Voronoi diagram has at its perimeter a number of edges
+that extend infinitely in the plane. It is difficult to efficiently calculate
+whether a point lies in one of these semi-bounded regions. Because of this,
+we take a post-processing step for the Voronoi diagram that imposes a bounding
+box around the obstacles; all the obstacles and intersections lie within
+the box, and any test points for classification must as well.\\
+\indent An additional post-processing step is to sort the Voronoi regions
+by the minimum value of $y$ of any point in the region. This allows us to
+do a binary search to find the region with the highest $y$ that is not
+entirely higher than the test point. From that point, we proceed linearly
+through the regions in order of decreasing highest $y$, checking whether
+the test point belongs in that region, until the correct region is found.
+This heuristic improves the runtime
+of the search for the region that the point falls into once we have the
+diagram, as all regions with higher minimum $y$ can be ignored. The
+sorting step itself negates at least some of the runtime improvements, but
+in a better classification scheme (search within a diagram rather than
+re-calculating the diagram) it would likely be worth the one-time costs.
+
+\section{Results}
+\subsection{Voronoi Diagrams}
+\noindent\ shows the results of creating a Voronoi diagram with fifty
+point obstacles with $x$ and $y$ coordinates randomly selected from a uniform
+distribution between $0$ and $10$. While we did not analytically verify the
+results, the output looks intuitively correct. Unfortunately, there is a latent
+bug in our implementation that causes an error with probability proportional
+to the number of obstacles, so this is close to the upper limit of the problem
+size that we can currently generate results for.
+
+\subsection{Nearest Neighbors}
+\noindent\ As a result of the aforementioned issues, testing the nearest-neighbors
+classification on any real dataset is not feasible; training generally requires
+significantly more than fifty input points. However, we are able to produce the
+$k$ nearest neighbors to an input point, for values of $k$ up to about $10$.
+This means that the theoretical challenges are mostly handled. Creating a more
+robust classifier would be mostly a matter of scaling and some amount of
+debugging. As mentioned in Section~\ref{knn}, the algorithm that we used
+to find the neighbors was fairly inefficient, but on such a small dataset this
+did not impose any noticeable runtime degradation.
+
+\section{Discussion}
+\noindent\ Our results are generally correct, but we wish that we could have
+implemented the most efficient algorithms and data structures for the diagram
+construction and KNN classification. During construction, we would prefer to
+have used a balanced binary tree rather than a doubly-linked list for the beach
+line. In the classification step, theoretical complexity improvements would have
+to be taken from modified data structures created during the diagram construction.
+If the edges list had included the vertices at either end of the edge, we could
+have made improvements in the time to find the region that a point belongs to.
+If the edges list had included the obstacles for the regions incident to the
+edge, we could have done an exhaustive search starting from the nearest neighbor
+rather than re-creating the Voronoi diagram. These improvements are theoretically
+simple to implement but we did not consider them during implementation of the
+Sweepline algorithm and lacked sufficient time to modify it at the end.
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+\section{Conclusion}
+We successfully implemented a Voronoi diagram algorithm for point
+obstacles in two dimensions. While there exist easier Voronoi algorithms
+to implement, the Sweepline algorithm was interesting geometrically
+and promises good performance results. We used the completed Voronoi
+diagram to create a k-Nearest-Neighbors classifier that runs correctly
+on toy datasets.
+
+
+% conference papers do not normally have an appendix
+
+
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\nocite{*}
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{references.bib}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+% \begin{thebibliography}{1}
+
+% \end{thebibliography}
+
+
+
+
+% that's all folks
+\end{document}
+
+
