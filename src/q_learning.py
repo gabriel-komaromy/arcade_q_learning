@@ -12,6 +12,7 @@ although the problem here requires significant alterations."""
 game = ale.ALEInterface()
 
 rom = 'Breakout.bin'
+
 path = os.path.join(
     os.getcwd(),
     'roms',
