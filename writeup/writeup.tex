@@ -579,112 +579,32 @@ previous set of weights. Additionally, we have to store the action taken,
 because the action that maximizes the Q-value may have changed since the
 transition was recorded.
 
-\subsection{Data Structures}
-\noindent\ There are two fundamental data structures used in the construction of the Voronoi
-diagram.
-
-\subsubsection{Beach Line}
-\noindent\ The first data structure represents the beach line. Optimally,
-this would be implemented as a balanced binary search tree such as an AVL tree or
-red-black tree. In this tree, leaf nodes represent obstacles and
-the internal nodes represent the intersections between arcs~\cite{mitslides}.\\
-\indent In the interest of ease of implemenation, we instead use a
-doubly-linked list to store the beach line. Nodes in the list contain
-obstacles, and two adjacent nodes have pointers to each other and to the
-growing Voronoi edge between them. Using a list instead of a search tree
-increases the complexity of locating the arc that a new obstacle falls under
-from $O(\log n)$ to $O(n)$.\\
-\indent In this setup, a node has two adjacent edges, each with an intersection
-at its endpoint. When a node is first encountered by the sweepline, its arc is a
-vertical line, and so only intersects the beach line once. However, the equation
-for intersections in Section~\ref{obstacle_events} returns two copies of this
-intersection. This allows us to create the arcs without having to handle an
-additional case.\\
-\indent An obstacle can have multiple nodes associated with it. Each time the
-obstacle's parabola is split by an obstacle event, the single node containing
-that segment of the arc splits into two. This corresponds to the obstacle's
-Voronoi region gaining an incident edge.\\
-\indent When a circle event occurs, the corresponding obstacle's node is removed
-from the list and its neighbors are joined together, forming an intersection on the
-Voronoi diagram and a new edge leading out of it.
-
-\subsubsection{Event Queue}
-\noindent\ The second data structure is a priority queue containing the events, which we refer to as
-the \emph{event queue}. We implement this using a binary heap, Python's \emph{heapq}.
-Initially, the event queue contains all of the obstacles minus duplicate obstacles,
-beginning with the obstacle with maximal y-value. Ordering ties are broken by
-placing the event with the lower x-value first.
-
-\subsubsection{Interactions}
-\noindent\ There is some overlap between the responsibilities of the beach line and the event
-queue. Both of them keep track of circle events: each node in the beach line
-has an associated circle event, if any, and the event queue contains the
-active circle events in addition to the obstacle events. After each event,
-the nearby nodes in the beach line are examined for circle event updates. This
-includes both adding potential new circle events if a node was added to the
-beach line, and removing circle events if a new obstacle falls inside the
-circle. If a circle event is removed from the beach line, it also is removed
-from the event queue. This is a costly operation because lookup in a heap
-costs $O(n)$.
-
-\subsection{Nearest Neighbors}\label{knn}
-\noindent\ Given a complete and robust Voronoi diagram, KNN classification can be done
-in a similar manner to a breadth-first search. To classify a test point, the
-first step is to locate the Voronoi region that it resides in. The obstacle
-corresponding to that region is the nearest neighbor. If $k>1$, the obstacles
-in regions adjacent to the nearest neighbor are added to a list. The second
-nearest neighbor will be the closest obstacle in the list. Additional neighbors
-can be added in a similar manner.\\
-\indent Classification in this manner requires that edges have knowledge of
-the obstacles on both sides of them, which our Voronoi implementation does
-not. We output a list of edges and a dictionary mapping each obstacle to
-the edges surrounding its region.\\
-\indent We modify the nearest-neighbor implementation
-as follows: after the nearest neighbor is found, it is removed from the list
-of obstacles and the Voronoi diagram is re-calculated. The second nearest
-neighbor is now the obstacle for the region that the test point resides in.
-This can be repeated for the $k$ nearest neighbors. This impacts
-the computational complexity of the classification, as creating $k$ Voronoi
-diagrams increases the runtime by a factor of $k$.\\
-\indent The standard Voronoi diagram has at its perimeter a number of edges
-that extend infinitely in the plane. It is difficult to efficiently calculate
-whether a point lies in one of these semi-bounded regions. Because of this,
-we take a post-processing step for the Voronoi diagram that imposes a bounding
-box around the obstacles; all the obstacles and intersections lie within
-the box, and any test points for classification must as well.\\
-\indent An additional post-processing step is to sort the Voronoi regions
-by the minimum value of $y$ of any point in the region. This allows us to
-do a binary search to find the region with the highest $y$ that is not
-entirely higher than the test point. From that point, we proceed linearly
-through the regions in order of decreasing highest $y$, checking whether
-the test point belongs in that region, until the correct region is found.
-This heuristic improves the runtime
-of the search for the region that the point falls into once we have the
-diagram, as all regions with higher minimum $y$ can be ignored. The
-sorting step itself negates at least some of the runtime improvements, but
-in a better classification scheme (search within a diagram rather than
-re-calculating the diagram) it would likely be worth the one-time costs.
+\subsubsection{Backpropagation}
+\noindent\ We used the RMSProp algorithm, similarly to~\cite{mnih2013playing}.
 
 \section{Results}
-\subsection{Voronoi Diagrams}
-\noindent\ shows the results of creating a Voronoi diagram with fifty
-point obstacles with $x$ and $y$ coordinates randomly selected from a uniform
-distribution between $0$ and $10$. While we did not analytically verify the
-results, the output looks intuitively correct. Unfortunately, there is a latent
-bug in our implementation that causes an error with probability proportional
-to the number of obstacles, so this is close to the upper limit of the problem
-size that we can currently generate results for.
-
-\subsection{Nearest Neighbors}
-\noindent\ As a result of the aforementioned issues, testing the nearest-neighbors
-classification on any real dataset is not feasible; training generally requires
-significantly more than fifty input points. However, we are able to produce the
-$k$ nearest neighbors to an input point, for values of $k$ up to about $10$.
-This means that the theoretical challenges are mostly handled. Creating a more
-robust classifier would be mostly a matter of scaling and some amount of
-debugging. As mentioned in Section~\ref{knn}, the algorithm that we used
-to find the neighbors was fairly inefficient, but on such a small dataset this
-did not impose any noticeable runtime degradation.
+\noindent\ Unfortunately, we were not able to generate meaningful results due
+to performance issues. In~\cite{mnih2013playing}, they trained each game for
+10,000,000 steps. With frame stacking, that means there were 2,500,000 network
+updates.  When we tried to run our implementation with TensorFlow, it took
+hours to reach 100 steps even on a powerful computer. This confused us for
+quite a while: surely the previous authors did not have access to hardware five
+orders of magnitude faster than ours.\\
+\indent\ The problem was that they were not training the network to convergence
+on the input transitions at every step. This was not discussed in their paper,
+but it seems like the only reasonable explanation.\\
+\indent\ Unfortunately, TensorFlow does not have a way to terminate one of
+their out-of-the-box optimization algorithms early without stopping the entire
+program. This means that a TensorFlow implementation of this algorithm that has
+a plausible chance at working in a reasonable amount of time needs to be
+implemented using their direct gradient computation API, which is significantly
+more involved than calling one of the optimization algorithms. We discovered
+this too late to make a meaningful amount of progress on the alternate
+implementation.\\
+\indent\ There is a small plus to training to convergence, which is that it
+does more improvement to the network per step. However, the problem we ran into
+was that there were so few game steps taken that the agent did not have time to
+learn anything about the game or do sufficient exploration.
 
 \section{Discussion}
 \noindent\ Our results are generally correct, but we wish that we could have
