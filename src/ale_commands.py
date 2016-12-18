@@ -102,7 +102,7 @@ def inference(inputs):
     fully_connected_units = 128
     W_conv1 = weight_variable([1, 8, 8, 1, conv1_units])
     b_conv1 = bias_variable([conv1_units])
-    h_conv1 = tf.nn.relu(conv3d(inputs, W_conv1, stack_size) + b_conv1)
+    h_conv1 = tf.nn.relu(conv3d(inputs, W_conv1, 4) + b_conv1)
 
     W_conv2 = weight_variable([1, 4, 4, conv1_units, conv2_units])
     b_conv2 = bias_variable([conv2_units])
