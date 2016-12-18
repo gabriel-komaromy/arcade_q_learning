@@ -447,12 +447,12 @@ state.\\
 \indent\ Usually, the Q-function is parameterized by a linear combination of
 the state features. Its weights are updated by the \emph{Bellman equation}:
 \begin{equation}
-    Q_{new}(s, a)\mathrel{+}=\alpha\left(R(s,a)+\gamma\max_{a^{'}}Q(s^{'},a^{'})\right)
+    Q_{new}(s, a)\mathrel{+}=\alpha\left(R(s,a)+\gamma\max_{a'}Q(s',a')\right)
 \end{equation}
 $\alpha$ is the \emph{learning rate}, which controls how much the weights move
 at each update.  $R(s, a)$ is the reward received after taking action $a$ in
 state $s$. $\gamma$ is the \emph{discount factor}, representing how much less
-a reward at a future step is worth than a reward at the current step. $s^{'}$
+a reward at a future step is worth than a reward at the current step. $s'$
 is the state transitioned to after taking action $a$.\\
 \indent\ Rather than use a set of linear weights for the Q-function, Deep
 Q-Learning uses a represents the Q-function via a neural network. We will
@@ -524,7 +524,7 @@ should produce} and then train it via backpropagation to match that output.\\
 \indent\ Mnih et al.~\cite{mnih2013playing} found a way to derive an error
 value for backpropagation given a reward and a transition:
 \begin{equation}
-    Err(r, s, a, s^{'})=r+\gamma\max_{a'}Q(s^{'},a^{'})-Q(s,a)
+    Err(r, s, a, s')={\left(r+\gamma\max_{a'}Q(s',a')-Q(s,a)\right)}^{2}
 \end{equation}
 This still uses the Bellman contraction from a reward and future Q-value to
 figure out how ``wrong'' the current Q-value is.
@@ -551,9 +551,9 @@ between. We adopt this strategy.
 
 \subsubsection{Convolutional Layers}
 \noindent\ There are two convolutional layers in the Q-network: first, a layer
-of 16 8$\times$8 convolution patches, followed by a layer of 32 4$\times$4
-convolution patches. Each uses TensorFlow's rectified linear unit activation
-function (tf.nn.relu).
+of 16 8$\times$8 convolution patches with stride 4, followed by a layer of 32
+4$\times$4 convolution patches with stride 2. Each uses TensorFlow's rectified
+linear unit activation function (tf.nn.relu).
 
 \subsubsection{Fully-Connected}
 \noindent\ Following the convolutional layers is a fully-connected layer with
