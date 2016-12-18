@@ -1,7 +1,7 @@
 I should think about other ways to incorporate a model as I go through the papers.
 
 Implement DeepMind algorithm:
-    - Figure out how ALE structures rewards
+    - Figure out how ALE structures rewards/figure out how I can normalize them like in the paper
 
     - Check Nature paper for parameters not in the original paper (specific reLU function, for one). Page 10 has all the constant parameters.
 
