@@ -1,35 +1,15 @@
-ls
-vim ~/.vimrc
-vim ~/.bashrc
-ins python-pip
-exec bash -l
-pip install tensorflow
-pip install --upgrade pip
-pip install Pillow
+sudo apt-get install python-pip
+sudo pip install --upgrade pip
+sudo pip install tensorflow
+sudo pip install scipy
 sudo pip install Pillow
 git clone https://github.com/mgbellemare/Arcade-Learning-Environment.git
 cd Arcade-Learning-Environment/
-sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake
 sudo apt-get install libsdl1.2-dev libsdl-gfx1.2-dev libsdl-image1.2-dev cmake -y
 mkdir build
 cd build
 cmake -DUSE_SDL=ON -DUSE_RLGLUE=OFF -DBUILD_EXAMPLES=ON ..
 make -j 4
 cd ..
-pip install .
 sudo pip install .
-ls
 cd ..
-ls
-vim src/ale_commands.py
-exec bash -l
-ins python-pip
-tmux
-exit
-tmux
-tmux attach
-exit
-pip install scipy
-exit
-tmux attach
-exit
