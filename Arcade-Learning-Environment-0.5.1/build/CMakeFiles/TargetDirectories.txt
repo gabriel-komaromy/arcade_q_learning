@@ -1,7 +1,0 @@
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/rebuild_cache.dir
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/sharedLibraryInterfaceExample.dir
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/edit_cache.dir
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/ale-c-lib.dir
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/ale-bin.dir
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/videoRecordingExample.dir
-/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment-0.5.1/build/CMakeFiles/ale-lib.dir
