@@ -3,38 +3,26 @@ import tensorflow as tf
 from scipy import misc
 import numpy as np
 import random
+import os
 
 """I'm following the lead of
 https://www.tensorflow.org/versions/r0.12/tutorials/mnist/pros/index.html,
 although the problem here requires significant alterations."""
 
 rom = ale.ALEInterface()
-path = '/Users/Gabe/classes/current/600/project/Arcade-Learning-Environment' + \
-    '-0.5.1/roms/Breakout.bin'
+
+game = 'Breakout.bin'
+path = os.path.join(
+    os.getcwd(),
+    'Arcade-Learning-Environment-0.5.1',
+    'roms',
+    game,
+    )
 
 rom.loadROM(path)
 
 available_actions = rom.getMinimalActionSet()
 num_actions = len(available_actions)
-
-# rom.getLegalActionSet()
-
-"""This is the one I probably want to use, it's only the actions that have
-an effect in the game"""
-# rom.getMinimalActionSet()
-# rom.getScreen()
-
-"""Outputs 210 x 160 image. You can also pass in an np array if you want it to
-fill that for you. Actually, that produces weirdly high inputs, don't fuck with
-it."""
-# grays = rom.getScreenGrayscale()
-
-"""It has shape (210, 160, 1) and we need (210, 160)"""
-# grays_2d = grays.reshape((210, 160))
-# downsampled_grays = misc.imresize(grays_2d, (108, 84))
-
-"""Saves a PNG output of the screen, will probably be useful for report"""
-# rom.saveScreenPNG('first_frame.png')
 
 # from Nature paper
 downsampled_w = 108
