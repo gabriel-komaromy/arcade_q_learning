@@ -473,6 +473,13 @@ right, and game-specific actions such as jump or shoot. These are encoded as
 integers by the ALE, so the agent has no semantic knowledge of the actions
 before it starts playing the game.
 
+\begin{figure}[tp]
+    \includegraphics[width=\columnwidth]{breakout_frame}
+    \caption{The Breakout Atari game. The goal is to bounce the ball with
+    the bar and hit all the tiles, while avoiding letting the ball drop
+    below the screen.}
+\end{figure}
+
 \section{Methods}
 \subsection{Deep Q-Learning}\label{deep_q}
 \noindent\ As mentioned in Section~\ref{ql}, Deep Q-Learning uses a neural
@@ -606,20 +613,8 @@ does more improvement to the network per step. However, the problem we ran into
 was that there were so few game steps taken that the agent did not have time to
 learn anything about the game or do sufficient exploration.
 
-\section{Discussion}
-\noindent\ Our results are generally correct, but we wish that we could have
-implemented the most efficient algorithms and data structures for the diagram
-construction and KNN classification. During construction, we would prefer to
-have used a balanced binary tree rather than a doubly-linked list for the beach
-line. In the classification step, theoretical complexity improvements would have
-to be taken from modified data structures created during the diagram construction.
-If the edges list had included the vertices at either end of the edge, we could
-have made improvements in the time to find the region that a point belongs to.
-If the edges list had included the obstacles for the regions incident to the
-edge, we could have done an exhaustive search starting from the nearest neighbor
-rather than re-creating the Voronoi diagram. These improvements are theoretically
-simple to implement but we did not consider them during implementation of the
-Sweepline algorithm and lacked sufficient time to modify it at the end.
+\section{Conclusion}
+\noindent\ Not getting any results was obviously disappointing. Additionally, we didn't get very far beyond implementing the 2013 paper. We did learn quite a bit about using TensorFlow and deep Q-Learning, and hopefully provided some interesting insights from the challenges we encountered.
 
 % An example of a floating figure using the graphicx package.
 % Note that \label must occur AFTER (or within) \caption.
@@ -714,15 +709,6 @@ Sweepline algorithm and lacked sufficient time to modify it at the end.
 % Note that, LaTeX2e, unlike IEEE journals/conferences, places
 % footnotes above bottom floats. This can be corrected via the
 % \fnbelowfloat command of the stfloats package.
-
-
-\section{Conclusion}
-We successfully implemented a Voronoi diagram algorithm for point
-obstacles in two dimensions. While there exist easier Voronoi algorithms
-to implement, the Sweepline algorithm was interesting geometrically
-and promises good performance results. We used the completed Voronoi
-diagram to create a k-Nearest-Neighbors classifier that runs correctly
-on toy datasets.
 
 
 % conference papers do not normally have an appendix
