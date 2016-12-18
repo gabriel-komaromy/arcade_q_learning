@@ -307,8 +307,7 @@ def run_training():
                 filled_memory,
                 )
 
-            _, loss_value = sess.run([train_op, loss], feed_dict=feed_dict)
+            sess.run([train_op, loss], feed_dict=feed_dict)
             last_frame_stack = new_frame_stack
 
-            loss_value = loss_value
 run_training()
